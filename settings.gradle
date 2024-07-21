@@ -1,2 +1,3 @@
-rootProject.name = 'otus_'
+rootProject.name = 'otus'
+include 'quadratic'
 
