@@ -1,6 +1,7 @@
-package uobject.action;
+package uobject.command.game;
 
 import uobject.adapter.Movable;
+import uobject.command.Command;
 
 import java.util.List;
 

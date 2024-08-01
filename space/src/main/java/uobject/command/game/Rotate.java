@@ -1,6 +1,7 @@
-package uobject.action;
+package uobject.command.game;
 
 import uobject.adapter.RotatableAdapter;
+import uobject.command.Command;
 
 public class Rotate implements Command {
 
