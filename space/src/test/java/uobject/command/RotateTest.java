@@ -1,9 +1,10 @@
-package uobject.action;
+package uobject.command;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import uobject.adapter.RotatableAdapter;
+import uobject.command.game.Rotate;
 import uobject.model.Property;
 import uobject.model.UObjectImpl;
 
