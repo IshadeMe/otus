@@ -1,13 +1,13 @@
-package uobject.command.game;
+package uobject.command.simple;
 
 import uobject.adapter.RotatableAdapter;
 import uobject.command.Command;
 
-public class Rotate implements Command {
+public class RotateCommand implements Command {
 
     private final RotatableAdapter adapter;
 
-    public Rotate(RotatableAdapter adapter) {
+    public RotateCommand(RotatableAdapter adapter) {
         this.adapter = adapter;
     }
 

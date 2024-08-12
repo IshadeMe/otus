@@ -2,11 +2,11 @@ package uobject.command.error;
 
 import uobject.command.Command;
 
-public class Retry implements Command {
+public class RetryCommand implements Command {
 
     private final Command command;
 
-    public Retry(Command command) {
+    public RetryCommand(Command command) {
         this.command = command;
     }
 
