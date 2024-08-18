@@ -5,14 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import uobject.adapter.MovableAdapter;
 import uobject.command.Command;
-import uobject.command.error.LastRetry;
-import uobject.command.error.LogError;
-import uobject.command.error.Retry;
-import uobject.command.game.Move;
+import uobject.command.error.LastRetryCommand;
+import uobject.command.error.LogErrorCommand;
+import uobject.command.error.RetryCommand;
+import uobject.command.simple.MoveCommand;
 
 import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 
@@ -24,8 +22,8 @@ class CommandExceptionHandlerImplTest {
     @Test
     void handleErrorLog() {
         handler = new CommandExceptionHandlerImpl();
-        var response = handler.handle(new Move(null), new RuntimeException());
-        assertSame(LogError.class, response.getClass());
+        var response = handler.handle(new MoveCommand(null), new RuntimeException());
+        assertSame(LogErrorCommand.class, response.getClass());
     }
 
     @Test
@@ -33,43 +31,43 @@ class CommandExceptionHandlerImplTest {
         var command = Mockito.mock(Command.class);
         var adapter = Mockito.mock(MovableAdapter.class);
         var exception = new RuntimeException();
-        var move = new Move(adapter);
+        var move = new MoveCommand(adapter);
 
         handler = new CommandExceptionHandlerImpl(
                 Map.of(
-                        move.getClass(), Map.of(exception.getClass(), (c, e) -> new Retry(command))
+                        move.getClass(), Map.of(exception.getClass(), (c, e) -> new RetryCommand(command))
                 )
         );
-        var response = handler.handle(new Move(null), new RuntimeException());
-        assertSame(Retry.class, response.getClass());
+        var response = handler.handle(new MoveCommand(null), new RuntimeException());
+        assertSame(RetryCommand.class, response.getClass());
     }
 
     @Test
     void retryAndLog() {
         handler = new CommandExceptionHandlerImpl(
                 Map.of(
-                        Move.class, Map.of(RuntimeException.class, (c, e) -> new Retry(c)),
-                        Retry.class, Map.of(RuntimeException.class, LogError::new)
+                        MoveCommand.class, Map.of(RuntimeException.class, (c, e) -> new RetryCommand(c)),
+                        RetryCommand.class, Map.of(RuntimeException.class, LogErrorCommand::new)
                 )
         );
-        var response = handler.handle(new Move(null), new RuntimeException());
+        var response = handler.handle(new MoveCommand(null), new RuntimeException());
         var resp = handler.handle(response, new RuntimeException());
-        assertSame(Retry.class, response.getClass());
-        assertSame(LogError.class, resp.getClass());
+        assertSame(RetryCommand.class, response.getClass());
+        assertSame(LogErrorCommand.class, resp.getClass());
     }
 
     @Test
     void retryAndRetryAndLog() {
         handler = new CommandExceptionHandlerImpl(
                 Map.of(
-                        Move.class, Map.of(RuntimeException.class, (c, e) -> new Retry(c)),
-                        Retry.class, Map.of(RuntimeException.class, (c, e) -> new LastRetry(c)),
-                        LastRetry.class, Map.of(RuntimeException.class, LogError::new)
+                        MoveCommand.class, Map.of(RuntimeException.class, (c, e) -> new RetryCommand(c)),
+                        RetryCommand.class, Map.of(RuntimeException.class, (c, e) -> new LastRetryCommand(c)),
+                        LastRetryCommand.class, Map.of(RuntimeException.class, LogErrorCommand::new)
                 )
         );
-        var response = handler.handle(new Move(null), new RuntimeException());
+        var response = handler.handle(new MoveCommand(null), new RuntimeException());
         var resp = handler.handle(handler.handle(response, new RuntimeException()), new RuntimeException());
-        assertSame(LogError.class, resp.getClass());
+        assertSame(LogErrorCommand.class, resp.getClass());
     }
 
 }

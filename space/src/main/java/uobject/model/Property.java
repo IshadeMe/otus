@@ -7,7 +7,12 @@ public enum Property {
     ANGULAR("angular"),
     DIRECTION("direction"),
     ANGULAR_VELOCITY("angularVelocity"),
-    DIRECTIONS_NUMBER("directionsNumber");
+    DIRECTIONS_NUMBER("directionsNumber"),
+
+    FUEL_AMOUNT("fuelAmount"),
+    FUEL_TICK_BURN("burnFuelCount"),
+
+    ACCELERATION("acceleration");
 
     private final String key;
 

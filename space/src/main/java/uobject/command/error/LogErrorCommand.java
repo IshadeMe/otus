@@ -4,12 +4,12 @@ import uobject.command.Command;
 
 import java.util.logging.Logger;
 
-public class LogError implements Command {
+public class LogErrorCommand implements Command {
 
     private final Command command;
     private final Exception exception;
 
-    public LogError(Command command, Exception exception) {
+    public LogErrorCommand(Command command, Exception exception) {
         this.command = command;
         this.exception = exception;
     }

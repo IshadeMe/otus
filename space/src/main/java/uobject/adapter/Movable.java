@@ -10,6 +10,11 @@ public interface Movable {
     List<Integer> getPosition();
 
     /**
+     * @param newVector новое положение объекта
+     */
+    void setPosition(List<Integer> newVector);
+
+    /**
      * @return скорость объекта
      */
     double getVelocity();
@@ -18,9 +23,4 @@ public interface Movable {
      * @return угол скорости объекта
      */
     double getAngular();
-
-    /**
-     * @param newVector новое положение объекта
-     */
-    void setPosition(List<Integer> newVector);
 }

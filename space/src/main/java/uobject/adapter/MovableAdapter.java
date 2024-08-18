@@ -27,6 +27,14 @@ public class MovableAdapter implements Movable {
     }
 
     /**
+     * @param newVector новое положение объекта
+     */
+    @Override
+    public void setPosition(List<Integer> newVector) {
+        o.setProperty(POSITION.getKey(), newVector);
+    }
+
+    /**
      * @return модуль скорости объекта
      */
     @Override
@@ -41,13 +49,5 @@ public class MovableAdapter implements Movable {
     public double getAngular() {
         return (double) o.getProperty(ANGULAR.getKey());
 
-    }
-
-    /**
-     * @param newVector новое положение объекта
-     */
-    @Override
-    public void setPosition(List<Integer> newVector) {
-        o.setProperty(POSITION.getKey(), newVector);
     }
 }

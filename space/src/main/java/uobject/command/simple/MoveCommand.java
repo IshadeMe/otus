@@ -1,15 +1,15 @@
-package uobject.command.game;
+package uobject.command.simple;
 
 import uobject.adapter.Movable;
 import uobject.command.Command;
 
 import java.util.List;
 
-public class Move implements Command {
+public class MoveCommand implements Command {
 
     private final Movable movable;
 
-    public Move(Movable movable) {
+    public MoveCommand(Movable movable) {
         this.movable = movable;
     }
 

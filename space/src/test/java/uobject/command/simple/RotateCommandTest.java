@@ -1,10 +1,9 @@
-package uobject.command;
+package uobject.command.simple;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import uobject.adapter.RotatableAdapter;
-import uobject.command.game.Rotate;
 import uobject.model.Property;
 import uobject.model.UObjectImpl;
 
@@ -14,7 +13,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class RotateTest {
+class RotateCommandTest {
 
     @Test
     @DisplayName("Для объекта, находящегося под углом 180 и движущегося с угловой скоростью 60 движение меняет угол объекта на 240")
@@ -26,7 +25,7 @@ class RotateTest {
 
         var ship = new UObjectImpl(properties);
         var adapter = new RotatableAdapter(ship);
-        var move = new Rotate(adapter);
+        var move = new RotateCommand(adapter);
 
         move.execute();
 
@@ -44,7 +43,7 @@ class RotateTest {
 
         var ship = new UObjectImpl(properties);
         var adapter = new RotatableAdapter(ship);
-        var move = new Rotate(adapter);
+        var move = new RotateCommand(adapter);
 
         move.execute();
 
@@ -61,7 +60,7 @@ class RotateTest {
 
         var ship = new UObjectImpl(properties);
         var adapter = new RotatableAdapter(ship);
-        var move = new Rotate(adapter);
+        var move = new RotateCommand(adapter);
 
         move.execute();
         move.execute();
@@ -73,7 +72,7 @@ class RotateTest {
     @DisplayName("Попытка сдвинуть объект, у которого невозможно прочитать угол, приводит к ошибке")
     void moveWithoutPositionThrows() {
         var undefinedObject = new UObjectImpl(new HashMap<>());
-        var move = new Rotate(new RotatableAdapter(undefinedObject));
+        var move = new RotateCommand(new RotatableAdapter(undefinedObject));
         assertThrows(RuntimeException.class, move::execute);
     }
 
@@ -85,7 +84,7 @@ class RotateTest {
         properties.put(Property.DIRECTIONS_NUMBER.getKey(), 360);
         var undefinedObject = new UObjectImpl(properties);
 
-        var move = new Rotate(new RotatableAdapter(undefinedObject));
+        var move = new RotateCommand(new RotatableAdapter(undefinedObject));
 
         assertThrows(RuntimeException.class, move::execute);
     }
@@ -96,7 +95,7 @@ class RotateTest {
     void moveFailThrows() {
         var mockAdapter = Mockito.mock(RotatableAdapter.class);
         Mockito.when(mockAdapter.getDirection()).thenReturn(45);
-        var move = new Rotate(mockAdapter);
+        var move = new RotateCommand(mockAdapter);
 
         assertThrows(RuntimeException.class, move::execute);
     }

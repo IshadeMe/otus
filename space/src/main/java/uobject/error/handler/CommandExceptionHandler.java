@@ -5,8 +5,7 @@ import uobject.command.Command;
 public interface CommandExceptionHandler {
 
     /**
-     *
-     * @param command команда, завершенная неудачно
+     * @param command   команда, завершенная неудачно
      * @param exception исключение
      * @return
      */

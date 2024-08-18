@@ -1,7 +1,7 @@
 package uobject.error.handler;
 
 import uobject.command.Command;
-import uobject.command.error.LogError;
+import uobject.command.error.LogErrorCommand;
 
 import java.util.Collections;
 import java.util.Map;
@@ -12,12 +12,18 @@ public class CommandExceptionHandlerImpl implements CommandExceptionHandler {
     private final Map<Class<? extends Command>, Map<Class<? extends Exception>, BiFunction<Command, Exception, Command>>> dict;
 
 
-    public CommandExceptionHandlerImpl(Map<Class<? extends Command>, Map<Class<? extends Exception>, BiFunction<Command, Exception, Command>>>  dict) {
+    public CommandExceptionHandlerImpl(Map<Class<? extends Command>, Map<Class<? extends Exception>, BiFunction<Command, Exception, Command>>> dict) {
         this.dict = dict;
     }
 
     public CommandExceptionHandlerImpl() {
         this(defaultDict());
+    }
+
+    private static Map<Class<? extends Command>, Map<Class<? extends Exception>, BiFunction<Command, Exception, Command>>> defaultDict() {
+        return Map.ofEntries(
+
+        );
     }
 
     /**
@@ -33,13 +39,7 @@ public class CommandExceptionHandlerImpl implements CommandExceptionHandler {
     }
 
     private BiFunction<Command, Exception, Command> defaultLoggingCommand(Command command, Exception exception) {
-        return (c, e) -> new LogError(command, exception);
-    }
-
-    private static Map<Class<? extends Command>, Map<Class<? extends Exception>, BiFunction<Command, Exception, Command>>> defaultDict() {
-        return Map.ofEntries(
-
-        );
+        return (c, e) -> new LogErrorCommand(command, exception);
     }
 
 }

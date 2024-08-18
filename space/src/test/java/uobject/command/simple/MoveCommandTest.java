@@ -1,10 +1,9 @@
-package uobject.command;
+package uobject.command.simple;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import uobject.adapter.MovableAdapter;
-import uobject.command.game.Move;
 import uobject.model.Property;
 import uobject.model.UObjectImpl;
 
@@ -17,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
-class MoveTest {
+class MoveCommandTest {
 
 
     @Test
@@ -30,7 +29,7 @@ class MoveTest {
 
         var ship = new UObjectImpl(properties);
         var adapter = new MovableAdapter(ship);
-        var move = new Move(adapter);
+        var move = new MoveCommand(adapter);
 
         move.execute();
 
@@ -41,7 +40,7 @@ class MoveTest {
     @DisplayName("Попытка сдвинуть объект, у которого невозможно прочитать положение в пространстве, приводит к ошибке")
     void moveWithoutPositionThrows() {
         var undefinedObject = new UObjectImpl(new HashMap<>());
-        var move = new Move(new MovableAdapter(undefinedObject));
+        var move = new MoveCommand(new MovableAdapter(undefinedObject));
         assertThrows(RuntimeException.class, move::execute);
     }
 
@@ -52,7 +51,7 @@ class MoveTest {
         properties.put(Property.POSITION.getKey(), new ArrayList<>(List.of(0, 0)));
         var undefinedObject = new UObjectImpl(properties);
 
-        var move = new Move(new MovableAdapter(undefinedObject));
+        var move = new MoveCommand(new MovableAdapter(undefinedObject));
 
         assertThrows(RuntimeException.class, move::execute);
     }
@@ -63,7 +62,7 @@ class MoveTest {
         var mockAdapter = Mockito.mock(MovableAdapter.class);
         Mockito.when(mockAdapter.getPosition()).thenReturn(List.of(1, 1));
         Mockito.when(mockAdapter.getVelocity()).thenReturn(2.5);
-        var move = new Move(mockAdapter);
+        var move = new MoveCommand(mockAdapter);
 
         assertThrows(RuntimeException.class, move::execute);
     }
