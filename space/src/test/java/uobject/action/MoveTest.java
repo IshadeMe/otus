@@ -36,6 +36,7 @@ class MoveTest {
         assertEquals(List.of(5, 8), adapter.getPosition());
     }
 
+
     @Test
     @DisplayName("Попытка сдвинуть объект, у которого невозможно прочитать положение в пространстве, приводит к ошибке")
     void moveWithoutPositionThrows() {
